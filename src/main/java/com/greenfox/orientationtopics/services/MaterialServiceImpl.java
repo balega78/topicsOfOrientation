@@ -31,13 +31,23 @@ public class MaterialServiceImpl implements MaterialService {
   }
 
   @Override
-  public void createMaterial(String title, String url, Importance importance, Integer topicId) {
-    materialRepository.save(new Material(title, url, importance, topicRepository.findById(topicId).get()));
+  public void createMaterial(String title, String url, String details, Importance importance, Integer topicId) {
+    materialRepository.save(new Material(title, url, details, importance, topicRepository.findById(topicId).get()));
   }
 
   @Override
   public List<Material> findAllByTopic(Integer topicId) {
     return materialRepository.findAllByTopic(topicRepository.findById(topicId).get());
+  }
+
+  @Override
+  public void deleteMaterial(Integer materialId) {
+    materialRepository.deleteById(materialId);
+  }
+
+  @Override
+  public void setMaterialDetails(Integer materialId, String details) {
+    materialRepository.findById(materialId).get().setDetails(details);
   }
 
 }

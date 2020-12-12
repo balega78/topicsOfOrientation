@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -51,10 +52,31 @@ public class TopicController {
     return "redirect:../" + topicId;
   }
 
+  @PostMapping({"topic/copy-paste/{topicId}"})
+  public String changeCopyPaste(@PathVariable("topicId") Integer topicId, String copyPaste) {
+    topicService.setCopyPasteById(topicId, copyPaste);
+    return "redirect:../" + topicId;
+  }
+
   @PostMapping("topic/material/{topicId}")
   public String create(@PathVariable("topicId") Integer topicId, String title,
-                                  String url, Importance importance) {
-    materialService.createMaterial(title, url, importance, topicId);
+                       String details, String url, Importance importance) {
+    materialService.createMaterial(title, url, details, importance, topicId);
+    return "redirect:../" + topicId;
+  }
+
+  @PostMapping("topic/deletematerial/{topicId}")
+  public String deleteMaterialById(@PathVariable("topicId") Integer topicId,
+                                   @RequestParam Integer materialId) {
+    materialService.deleteMaterial(materialId);
+    return "redirect:../" + topicId;
+  }
+
+  @PostMapping("topic/changeDetails/{materialId}")
+  public String changeMaterialDetailById(@PathVariable("topicId") Integer materialId,
+                                         @RequestParam Integer topicId,
+                                         @RequestParam String details) {
+    materialService.setMaterialDetails(materialId, details);
     return "redirect:../" + topicId;
   }
 }

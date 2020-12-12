@@ -20,6 +20,7 @@ public class Material {
   private Integer id;
   private String title;
   private String url;
+  private String details;
   private Importance importance;
 
   @ManyToOne
@@ -34,12 +35,17 @@ public class Material {
     return title;
   }
 
+  public void setDetails(String details) {
+    this.details = details;
+  }
+
   public Material() {
   }
 
-  public Material(String title, String url, Importance importance, Topic topic) {
+  public Material(String title, String url, String details, Importance importance, Topic topic) {
     this.title = title;
     this.url=url;
+    this.details=details;
     this.importance=importance;
     this.topic=topic;
   }

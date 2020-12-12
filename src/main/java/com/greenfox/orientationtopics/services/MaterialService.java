@@ -7,6 +7,8 @@ import java.util.List;
 public interface MaterialService {
   public Material findById(Integer materialId);
   public List<Material> findAllMaterials();
-  public void createMaterial (String title, String url, Importance importance, Integer topicId);
+  public void createMaterial (String title, String url, String details, Importance importance, Integer topicId);
   public List<Material> findAllByTopic(Integer TopicId);
+  public void deleteMaterial (Integer materialId);
+  public void setMaterialDetails(Integer materialId, String details);
 }

@@ -9,14 +9,20 @@
 
 <body>
 <div class="container">
+
+    <a th:href="@{/}" th:text="'Go to Main'"></a>
     <h1>List of topics <small>Orientation phase</small></h1>
 
     <table class="table table-hover">
         <tr th:each="topic:${topics}" th:object="${topic}">
             <td th:text="*{topicId}"></td>
             <td><a th:href="@{/topic/{topic}(topic=*{topicId})}" th:text="*{title}"></a></td>
-            <td th:text="'This topic has ' + *{materialList.size} + ' material.'"></td>
-            <td th:text="*{description}"></td>
+            <td>
+                <span th:text="'Has '"></span>
+                <b th:text="*{materialList.size}"></b>
+                <span th:text="' materials.'"></span>
+            </td>
+            <td class="d-inline-block text-truncate" style="max-width: 450px;" th:text="*{description}"></td>
             <td>
                 <form th:action="@{/topic}" method="post">
                     <input type="checkbox" name="checked" th:checked="${topic.getChecked()}">

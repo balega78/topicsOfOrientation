@@ -8,13 +8,33 @@
 </head>
 <body>
 <div class="container">
-    <h1 th:text="${topic.title}"></h1>
 
-    <table class="table table-hover">
+    <a th:href="@{/topic}" th:text="'Go Back to Topics'"></a>
+    <h1 class="text-center" th:text="${topic.title}"></h1>
+
+    <h2 th:text="'Materials'"></h2>
+
+    <table class="table table-sm table-striped">
         <tr th:each="material:${materials}" th:object="${material}">
-            <td th:text="*{id}"></td>
-            <td><a th:href="@{{materialurl}(materialurl=*{url})}" th:text="*{title}"></a></td>
-            <td th:text="*{importance}"></td>
+            <td class="w-25">
+                <a th:href="@{{materialurl}(materialurl=*{url})}" th:text="*{title}"></a>
+            </td>
+            <td class="w-50" >
+                <form th:action="@{/topic/changedetails/{materialId}(materialId=${material.id})}"
+                      method="post">
+                    <input type="hidden" name="topicId" th:value="${topic.topicId}"/>
+                    <input class="w-75" type="text" th:value="*{details}" name="details">
+                    <button class="btn btn-sm" type="submit">change</button>
+                </form>
+            </td>
+            <td class="w-15" th:text="*{importance}"></td>
+            <td class="w-10">
+                <form th:action="@{/topic/deletematerial/{topicId}(topicId=${topic.topicId})}" method="post">
+                    <input type="hidden" name="materialId" th:value="*{id}"/>
+                    <input type="submit" value="Delete" class="btn-sm btn-danger"/>
+                </form>
+            </td>
+
         </tr>
         <tr>
             <td>
@@ -22,6 +42,8 @@
 
                     <input type="text" class="form-control" th:placeholder="'Title of material'" name="title"/>
                     <input type="url" class="form-control" th:placeholder="'url of material'" name="url"/>
+                    <input type="text" class="form-control" th:placeholder="'details'" name="details"/>
+
                     <select name="importance"> Importance:
                         <option th:each="importance : ${T(com.greenfox.orientationtopics.models.Importance).values()}"
                                 th:value="${importance}" th:text="${importance}" name="importance"></option>
@@ -33,8 +55,17 @@
         </tr>
     </table>
 
+    <h2 th:text="'Usefull codes, description'"></h2>
+
     <form th:action="@{/topic/description/{topicId}(topicId=${topic.topicId})}" th:object="${topic}" method="post">
-        <textarea class="form-control h-25" rows="15" th:text="*{description}" name="description"></textarea>
+        <textarea class="form-control h-25" rows="10" th:text="*{description}" name="description"></textarea>
+        <button type="submit">save</button>
+    </form>
+
+    <h2 th:text="'Do not forget to use'"></h2>
+
+    <form th:action="@{/topic/copy-paste/{topicId}(topicId=${topic.topicId})}" th:object="${topic}" method="post">
+        <textarea class="form-control h-25" rows="8" th:text="*{copyPaste}" name="copyPaste"></textarea>
         <button type="submit">save</button>
     </form>
 

@@ -34,6 +34,13 @@ public class TopicServiceImpl implements TopicService{
   }
 
   @Override
+  public void setCopyPasteById(Integer topicId, String copyPaste) {
+    Topic topic = findById(topicId);
+    topic.setCopyPaste(copyPaste);
+    topicRepository.save(topic);
+  }
+
+  @Override
   public List<Topic> findAllTopics() {
     return (List<Topic>) topicRepository.findAll();
   }
